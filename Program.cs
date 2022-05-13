@@ -142,9 +142,9 @@ namespace IngameScript
             // 需要使用此方法，但上述参数如果不需要，可以删除。
 
 
-            var naturalGravity =(int) cockpit.GetNaturalGravity().Normalize();
+            var naturalGravity =cockpit.GetNaturalGravity();
 
-            Echo("当前重力："+naturalGravity.ToString());
+            Echo("当前重力："+naturalGravity.Normalize().ToString());
             Echo("AutoUp:" + (upWorking?"true":"false")+" "+ (lightingUpBlock.Enabled ? "true" : "false"));
             Echo("AutoDown:" + (downWorking?"true":"false")+" "+ (lightingDownBlock.Enabled ? "true" : "false"));
 
@@ -158,7 +158,7 @@ namespace IngameScript
             if (lightingUpBlock.Enabled)
             {
 
-                if(naturalGravity == 0)
+                if(naturalGravity.IsZero())
                 {
                     setPercent(upThrusts, 0);changeGyrosStatus(gyros, true);upWorking = false;
                 }
@@ -185,7 +185,7 @@ namespace IngameScript
 
             if (lightingDownBlock.Enabled)
             {
-                if (naturalGravity > 8) 
+                if (((float)naturalGravity.Normalize()) > 8) 
                 { 
                     setPercent(downThrusts, 0);
                     changeGyrosStatus(gyros, true);
